@@ -555,6 +555,88 @@ export class MockApiService {
     };
   }
 
+  // Recent Activity - simulates entities the user has recently "touched"
+  static async getRecentActivity() {
+    await delay();
+    
+    // Generate recent touch times (last 7 days)
+    const now = new Date();
+    const generateRecentTime = (daysAgo: number, hoursOffset: number = 0) => {
+      const date = new Date(now);
+      date.setDate(date.getDate() - daysAgo);
+      date.setHours(date.getHours() - hoursOffset);
+      return date.toISOString();
+    };
+
+    // Simulate recent touches across different entity types
+    const recentActivity = [
+      {
+        entity_type: 'client',
+        entity_id: 1,
+        name: 'Acme Manufacturing',
+        last_touched: generateRecentTime(0, 2), // 2 hours ago
+        profile_link: '/clients/1'
+      },
+      {
+        entity_type: 'lead',
+        entity_id: 1,
+        name: 'Coastal Environmental Services',
+        last_touched: generateRecentTime(0, 4), // 4 hours ago
+        profile_link: '/leads/1'
+      },
+      {
+        entity_type: 'project',
+        entity_id: 3,
+        name: 'Bridge Foam Application',
+        last_touched: generateRecentTime(0, 6), // 6 hours ago
+        profile_link: '/projects/3'
+      },
+      {
+        entity_type: 'client',
+        entity_id: 3,
+        name: 'Prime Food Processing',
+        last_touched: generateRecentTime(1, 2), // Yesterday, 2 hours ago
+        profile_link: '/clients/3'
+      },
+      {
+        entity_type: 'lead',
+        entity_id: 2,
+        name: 'Southwest Culvert Systems',
+        last_touched: generateRecentTime(1, 8), // Yesterday, 8 hours ago
+        profile_link: '/leads/2'
+      },
+      {
+        entity_type: 'project',
+        entity_id: 1,
+        name: 'Tank Foam Expansion',
+        last_touched: generateRecentTime(2, 3), // 2 days ago, 3 hours ago
+        profile_link: '/projects/1'
+      },
+      {
+        entity_type: 'client',
+        entity_id: 5,
+        name: 'Texas Tank Storage',
+        last_touched: generateRecentTime(2, 10), // 2 days ago, 10 hours ago
+        profile_link: '/clients/5'
+      },
+      {
+        entity_type: 'project',
+        entity_id: 2,
+        name: 'Pipe Insulation Project',
+        last_touched: generateRecentTime(3, 5), // 3 days ago, 5 hours ago
+        profile_link: '/projects/2'
+      }
+    ];
+
+    // Sort by most recent first
+    recentActivity.sort((a, b) => new Date(b.last_touched).getTime() - new Date(a.last_touched).getTime());
+
+    return {
+      ok: true,
+      json: async () => recentActivity
+    };
+  }
+
   // Reports
   static async getReports(_params?: any) {
     await delay();

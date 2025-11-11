@@ -191,7 +191,7 @@ export async function apiFetch(path: string, options?: RequestInit) {
         return await MockApiService.getDashboardStats();
       
       case path === '/activity/recent' || path === '/api/activity/recent':
-        return await MockApiService.getDashboardStats();
+        return await MockApiService.getRecentActivity();
       
       // Contacts
       case path.startsWith('/api/contacts') && pathParts.length === 2:
