@@ -729,10 +729,10 @@ export class MockApiService {
     };
   }
 
-  static async updateUserRoles(id: number, rolesData: any) {
+  static async updateUserRoles(_id: number, rolesData: any) {
     await delay();
     const newRoles = rolesData.roles || ['user'];
-    
+
     return {
       ok: true,
       json: async () => ({
