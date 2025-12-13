@@ -25,6 +25,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import TrashPage from "./pages/TrashPage";
 import Vault from "./pages/Vault";
+import HelpPage from "./pages/HelpPage";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
           <Route path="/trash" element={<TrashPage />} />
           <Route path="/vault" element={<Vault />} />
+          <Route path="/help" element={<HelpPage />} />
         </Route>
         {/* Catch all */}
         <Route path="*" element={<NotFound />} />
