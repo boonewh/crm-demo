@@ -164,7 +164,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             </div>
 
             {/* Development Debug Info */}
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <details className="mt-4 bg-gray-900 text-gray-100 rounded-lg overflow-hidden">
                 <summary className="px-4 py-3 bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors text-sm font-medium">
                   🔧 Debug Information (Development Only)

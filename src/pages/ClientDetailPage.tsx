@@ -83,7 +83,7 @@ export default function ClientDetailPage() {
           console.error("Error loading users:", err);
         });
     }
-  }, [id, token]);
+  }, [id, token, user]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

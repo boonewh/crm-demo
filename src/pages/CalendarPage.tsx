@@ -8,6 +8,7 @@ import { useAuth } from "@/authContext";
 import InteractionModal from "@/components/ui/InteractionModal";
 import { Interaction } from "@/types";
 import { apiFetch } from "@/lib/api";
+import { generateIcsDownloadUrl } from "@/lib/calendarUtils";
 
 // TEMP: All Seasons Foam prefers "Accounts" instead of "Clients"
 const USE_ACCOUNT_LABELS = true;
@@ -277,7 +278,7 @@ export default function CalendarPage() {
           profile_link={selectedEvent.extendedProps.profile_link}
           onClose={() => setSelectedEvent(null)}
           calendarLink={generateGoogleCalendarUrl(selectedEvent)}
-          icsLink={`#`} // Demo mode - no ICS download
+          icsLink={generateIcsDownloadUrl({ id: selectedEvent.id, follow_up: new Date(selectedEvent.start).toISOString(), summary: selectedEvent.title, notes: selectedEvent.extendedProps.notes, outcome: selectedEvent.extendedProps.outcome })}
         />
       )}
     </div>

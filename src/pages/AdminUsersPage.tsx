@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useAuth } from "@/authContext";
 import { MoreVertical } from "lucide-react";
 import { apiFetch } from "@/lib/api";
@@ -75,17 +75,17 @@ export default function AdminUsersPage() {
     }
   };
 
-  const handleClickOutside = (e: MouseEvent) => {
+  const handleClickOutside = useCallback((e: MouseEvent) => {
     const activeRef = openMenuId !== null ? menuRefs.current[openMenuId] : null;
     if (activeRef && !activeRef.contains(e.target as Node)) {
       setOpenMenuId(null);
     }
-  };
+  }, [openMenuId]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [handleClickOutside]);
 
   // Existing promote/demote behavior (replace with a single role)
   const handleChangeRole = async (id: number, newRole: string) => {

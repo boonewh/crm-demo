@@ -67,6 +67,14 @@ function generateDynamicFollowUpDates(interactions: Interaction[]): Interaction[
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms));
 
 export class MockApiService {
+  static async getAccounts() {
+    await delay();
+    return {
+      ok: true,
+      json: async () => DEMO_CLIENTS.flatMap(client => (client.accounts || []).map(account => ({ ...account, client_name: client.name })))
+    };
+  }
+
   // Authentication
   static async login(_email: string, _password: string) {
     await delay();

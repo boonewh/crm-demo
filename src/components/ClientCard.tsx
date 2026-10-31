@@ -31,8 +31,6 @@ const ClientCard: FC<Props> = ({
   form,
   setForm,
   onEdit,
-  onCancel,
-  onSave,
   onDelete,
 }) => {
   function confirmDelete() {

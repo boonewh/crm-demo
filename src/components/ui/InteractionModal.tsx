@@ -123,6 +123,7 @@ export default function InteractionModal({
           {icsLink && (
             <a
               href={icsLink}
+              download={icsLink.startsWith("data:text/calendar") ? "demo-follow-up.ics" : undefined}
               className="text-sm bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-800"
             >
               Apple / Outlook Manual Calendar Add

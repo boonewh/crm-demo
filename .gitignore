@@ -28,3 +28,6 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
+test-results/
+dist-safety/
+*.tsbuildinfo

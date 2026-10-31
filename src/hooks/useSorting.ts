@@ -36,10 +36,11 @@ export function legacySortToUnified(sortOrder: 'newest' | 'oldest' | 'alphabetic
       return { field: 'created_at', direction: 'desc' };
     case 'oldest':
       return { field: 'created_at', direction: 'asc' };
-    case 'alphabetical':
+    case 'alphabetical': {
       // Use the primary name field for each entity type
       const nameField = entityType === 'projects' ? 'project_name' : 'name';
       return { field: nameField, direction: 'asc' };
+    }
     default:
       return { field: 'created_at', direction: 'desc' };
   }
@@ -70,7 +71,7 @@ export function useSorting({ entityType, initialSort, onSortChange }: UseSorting
   const [sortDirection, setSortDirection] = useState<SortDirection>(initialSort?.direction || 'desc');
 
   const handleSort = useCallback((field: string) => {
-    let newDirection: SortDirection = 'asc';
+    let newDirection: SortDirection;
     
     if (sortField === field) {
       // Toggle direction if same field

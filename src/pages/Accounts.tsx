@@ -45,7 +45,7 @@ export default function Accounts() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setClients(data.map((c: any) => ({ id: c.id, name: c.name })));
+      setClients(data.clients.map((c: SelectableEntity) => ({ id: c.id, name: c.name })));
     };
     loadClients();
   }, [token]);
@@ -160,8 +160,8 @@ export default function Accounts() {
                 {account.client_id && (
                   <li>
                     {account.client_name
-                      ? <li>{USE_ACCOUNT_LABELS ? "Owner" : "Client"}: {account.client_name}</li>
-                      : <li>{USE_ACCOUNT_LABELS ? "Owner ID" : "Client ID"}: {account.client_id}</li>}
+                      ? <>{USE_ACCOUNT_LABELS ? "Owner" : "Client"}: {account.client_name}</>
+                      : <>{USE_ACCOUNT_LABELS ? "Owner ID" : "Client ID"}: {account.client_id}</>}
                   </li>
                 )}
                 {account.notes && <li>Notes: {account.notes}</li>}

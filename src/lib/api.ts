@@ -4,12 +4,28 @@
 import { MockApiService } from './mockApi';
 
 // Helper function to properly type API responses for JSON parsing
-export async function getJsonFromResponse(response: any): Promise<any> {
-  return await (response as any).json();
+export async function getJsonFromResponse(response: Response) {
+  return response.json();
 }
 
 // Demo-only API functions that route directly to mock services
-export async function apiFetch(path: string, options?: RequestInit) {
+export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
+  const response = await routeMockRequest(path, options);
+  const status = 'status' in response && typeof response.status === 'number'
+    ? response.status : response.ok ? 200 : 500;
+  if ('blob' in response && typeof response.blob === 'function') {
+    return new Response(await response.blob(), { status });
+  }
+  if ('json' in response && typeof response.json === 'function') {
+    return new Response(JSON.stringify(await response.json()), {
+      status, headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  if (!response.ok) return new Response(null, { status });
+  throw new Error('Demo API response has no supported body');
+}
+
+async function routeMockRequest(path: string, options?: RequestInit) {
   // Route all requests directly to mock API - no real backend calls
   const method = options?.method || 'GET';
   const url = new URL(path, 'http://localhost');
@@ -30,6 +46,10 @@ export async function apiFetch(path: string, options?: RequestInit) {
       
       case path === '/api/user':
         return await MockApiService.verifyToken();
+
+      // Existing sample accounts, without a backend or persistent writes.
+      case /^\/(?:api\/)?accounts\/?$/.test(url.pathname) && method === 'GET':
+        return await MockApiService.getAccounts();
 
       // Clients - specific client by ID FIRST
       case /^\/api\/clients\/\d+$/.test(path):
@@ -56,7 +76,6 @@ export async function apiFetch(path: string, options?: RequestInit) {
           const body = options?.body ? JSON.parse(options.body as string) : {};
           return await MockApiService.createClient(body);
         }
-        break;
         break;
 
       // Leads - specific lead by ID FIRST
