@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/authContext";
+import { apiFetch } from "@/lib/api";
 
 export default function ChangePasswordPage() {
   const { token } = useAuth();
@@ -24,7 +25,7 @@ export default function ChangePasswordPage() {
       return;
     }
 
-    const res = await fetch("/api/change-password", {
+    const res = await apiFetch("/api/change-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +47,7 @@ export default function ChangePasswordPage() {
       try {
         const data = await res.json();
         message = data.error || message;
-      } catch {}
+      } catch { /* Keep the generic failure message for a non-JSON response. */ }
       setError(message);
     }
   };
@@ -54,8 +55,9 @@ export default function ChangePasswordPage() {
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow mt-10">
       <h1 className="text-2xl font-bold mb-4">Change Password</h1>
+      <p className="text-sm text-gray-600 mb-4">Demo only. Use fictional passwords; no real account will change.</p>
 
-      {success && <p className="text-green-600">Password updated successfully.</p>}
+      {success && <p className="text-green-600">Demo password change simulated. No real account changed.</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

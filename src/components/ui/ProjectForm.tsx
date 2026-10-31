@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Project } from "@/types";
 import PhoneInput from "@/components/ui/PhoneInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { apiFetch } from "@/lib/api";
 
 // TEMP: All Seasons Foam prefers "Accounts" instead of "Clients"

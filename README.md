@@ -7,14 +7,31 @@ This is a **demo-only** version of a React-based CRM system for All Seasons Foam
 To run the CRM demo:
 
 ```bash
-# Install dependencies
-npm install
+# Use Node 24.22.1 and npm 11.17.0; install the locked dependencies
+npm ci
 
 # Run the demo
 npm run dev
 ```
 
 The demo will be available at `http://localhost:5173`
+
+Live demo: https://pathsix-crm-demo.vercel.app
+
+### Maintenance checks
+
+Run `npm run lint`, `npm test`, `npm run build`, then `npm run test:browser`
+(install Chromium once with `npx playwright install chromium`). The build includes
+strict TypeScript checking. Browser checks use the built preview and block backend
+requests; password/email operations are simulations. Calendar downloads are generated
+locally. No credentials or database are needed.
+
+`npm run build:safety` followed by `CHECK_SAFETY=1 npm run test:browser` (set the
+environment variable using your shell) checks production mode too. The demo remains
+isolated even if `VITE_DEMO_MODE=false` or `VITE_API_BASE_URL` is set. Keep Tailwind
+on the compatible 3.4 line and the FullCalendar plugins together on 6.1 until an
+intentional migration; do not mix plugin major versions. GitHub Actions repeats
+the audit, lint, tests and both production builds on Ubuntu 24.04 / Node 24.
 
 ## 🎯 Demo Features
 

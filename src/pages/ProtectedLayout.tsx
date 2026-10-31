@@ -53,7 +53,7 @@ export default function ProtectedLayout() {
     const handleUnauthorized = () => logout();
     window.addEventListener("unauthorized", handleUnauthorized);
     return () => window.removeEventListener("unauthorized", handleUnauthorized);
-  }, []);
+  }, [logout]);
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (collapsed === null) return null;

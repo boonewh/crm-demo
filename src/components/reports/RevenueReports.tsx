@@ -68,7 +68,7 @@ export function RevenueReports() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" />
               <YAxis dataKey="client_name" type="category" width={150} />
-              <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+              <Tooltip formatter={(value) => typeof value === 'number' ? `$${value.toLocaleString()}` : String(value ?? '')} />
               <Legend />
               <Bar dataKey="total_revenue" name="Revenue" fill="#3b82f6" />
             </BarChart>
@@ -89,7 +89,7 @@ export function RevenueReports() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+              <Tooltip formatter={(value) => typeof value === 'number' ? `$${value.toLocaleString()}` : String(value ?? '')} />
               <Legend />
               <Line
                 type="monotone"

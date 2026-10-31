@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { UserPlus, MoreVertical } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,17 +31,17 @@ export default function CompanyContacts({ token, entityType, entityId }: Props) 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
-  const loadContacts = async () => {
+  const loadContacts = useCallback(async () => {
     const res = await apiFetch(`/contacts/?${entityType}_id=${entityId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await (res as any).json();
     setContacts(data);
-  };
+  }, [entityType, entityId, token]);
 
   useEffect(() => {
     loadContacts();
-  }, [entityType, entityId]);
+  }, [loadContacts]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

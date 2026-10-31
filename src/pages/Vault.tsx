@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FileUpload from "../components/FileUpload";
 import FileList from "../components/FileList";
 import { listFiles, uploadFiles, deleteFile } from "../api/storage";
@@ -23,7 +23,7 @@ export default function Vault() {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
     if (!authed || !token) {
       setLoading(false);
       setFiles([]);
@@ -41,11 +41,11 @@ export default function Vault() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [authed, token]);
 
   useEffect(() => {
     refresh();
-  }, []);
+  }, [refresh]);
 
   async function handleUpload(selected: File[]) {
   if (!canUpload || !token) return;

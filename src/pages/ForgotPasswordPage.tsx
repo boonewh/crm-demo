@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "@/lib/api";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/forgot-password", {
+    const res = await apiFetch("/api/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -26,11 +27,12 @@ export default function ForgotPasswordPage() {
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow mt-10">
       <h1 className="text-2xl font-bold mb-4">Forgot Password</h1>
+      <p className="text-sm text-gray-600 mb-4">Demo only. Use fictional details; no reset email will be sent.</p>
 
     {sent ? (
         <div className="space-y-4">
             <p className="text-green-600">
-            If that email exists, a reset link has been sent.
+            Demo reset request simulated. No email was sent.
             </p>
             <div className="text-center">
             <a href="/login" className="text-blue-600 hover:underline text-sm">

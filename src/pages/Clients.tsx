@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import EntityCard from "@/components/ui/EntityCard";
 import { useAuth, userHasRole } from "@/authContext";
-import { Mail, Phone, MapPin, User, StickyNote, Wrench, LayoutGrid, List, Plus, Filter, ChevronDown, ChevronUp, Edit, Trash2 } from "lucide-react";
+import { Mail, Phone, MapPin, User, StickyNote, LayoutGrid, List, Plus, Filter, ChevronDown, ChevronUp, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import CompanyForm from "@/components/ui/CompanyForm";
 import PaginationControls from "@/components/ui/PaginationControls";
@@ -34,8 +34,6 @@ function ClientsTable({
   clients, 
   onEdit, 
   onDelete,
-  sortField,
-  sortDirection,
   onSort,
   getSortIcon
 }: {
@@ -301,7 +299,7 @@ export default function Clients() {
     fetchClients();
 
     if (userHasRole(user, "admin")) {
-      fetch("/api/users/", {
+      apiFetch("/api/users/", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())

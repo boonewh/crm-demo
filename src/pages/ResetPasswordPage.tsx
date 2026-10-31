@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
+import { apiFetch } from "@/lib/api";
 
 export default function ResetPasswordPage() {
   const { token } = useParams<{ token: string }>();
@@ -51,7 +52,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    const res = await fetch("/api/reset-password", {
+    const res = await apiFetch("/api/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, password }),
@@ -69,9 +70,10 @@ export default function ResetPasswordPage() {
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow mt-10">
       <h1 className="text-2xl font-bold mb-4">Reset Your Password</h1>
+      <p className="text-sm text-gray-600 mb-4">Demo only. Use a fictional password; no real account will change.</p>
 
       {success ? (
-        <p className="text-green-600">✅ Password updated! Redirecting to login...</p>
+        <p className="text-green-600">Demo password reset simulated. No real account changed. Redirecting...</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

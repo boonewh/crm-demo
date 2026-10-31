@@ -1,14 +1,18 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
+  testDir: './tests/browser',
+  workers: 1,
+  timeout: 90000,
+  reporter: 'list',
   use: {
-    baseURL: 'http://localhost:5173', // Match your Vite dev server
+    baseURL: process.env.SITE_CHECK_BASE_URL || 'http://127.0.0.1:4173',
     headless: true,
   },
-  webServer: {
-    command: 'npm run dev',
-    port: 5173,
+  webServer: process.env.SITE_CHECK_BASE_URL ? undefined : {
+    command: process.env.CHECK_SAFETY === '1' ? 'npm run preview -- --host 127.0.0.1 --port 4173 --strictPort --outDir dist-safety' : 'npm run preview -- --host 127.0.0.1 --port 4173 --strictPort',
+    port: 4173,
     timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 });

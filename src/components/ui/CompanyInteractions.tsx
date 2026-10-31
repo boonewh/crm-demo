@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CalendarPlus, MoreVertical } from "lucide-react";
 import { InteractionFormData, Interaction } from "@/types";
 import { apiFetch } from "@/lib/api";
@@ -6,7 +6,7 @@ import InteractionForm from "@/components/ui/InteractionsForm";
 import InteractionModal from "@/components/ui/InteractionModal";
 import PaginationControls from "@/components/ui/PaginationControls";
 import { usePagination } from "@/hooks/usePreferences";
-import { generateGoogleCalendarUrl, generateOutlookComUrl } from "@/lib/calendarUtils";
+import { generateGoogleCalendarUrl, generateOutlookComUrl, generateIcsDownloadUrl } from "@/lib/calendarUtils";
 
 const USE_ACCOUNT_LABELS = true;
 
@@ -60,7 +60,7 @@ export default function EntityInteractions({
     });
   };
 
-  const fetchInteractions = async () => {
+  const fetchInteractions = useCallback(async () => {
     setLoading(true);
     try {
       const res = await apiFetch(
@@ -79,7 +79,7 @@ export default function EntityInteractions({
     } finally {
       setLoading(false);
     }
-  };
+  }, [entityType, entityId, currentPage, perPage, sortOrder, token]);
 
   const handleSubmit = async () => {
     const method = editingId ? "PUT" : "POST";
@@ -158,7 +158,7 @@ export default function EntityInteractions({
   // Load interactions when pagination changes
   useEffect(() => {
     fetchInteractions();
-  }, [entityType, entityId, currentPage, perPage, sortOrder, token]);
+  }, [fetchInteractions]);
 
   // Initialize with initial interactions on first load
   useEffect(() => {
@@ -390,7 +390,7 @@ export default function EntityInteractions({
                 : undefined
             }
             outlookLink={selectedInteraction.follow_up ? generateOutlookComUrl(selectedInteraction) : undefined}
-            icsLink={`${import.meta.env.VITE_API_BASE_URL}/interactions/${selectedInteraction.id}/calendar.ics`}
+            icsLink={generateIcsDownloadUrl(selectedInteraction)}
           />
         )}
       </div>
